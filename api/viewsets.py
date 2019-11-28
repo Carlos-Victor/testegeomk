@@ -7,6 +7,9 @@ from rest_framework import status
 
 
 class CarroViewSet(viewsets.ModelViewSet):
+    queryset = Carro.objects.all()
+    serializer_class = CarroSerializer
+
     @api_view(['GET'])
     def historico(request,plate):
         try:
@@ -29,8 +32,8 @@ class CarroViewSet(viewsets.ModelViewSet):
                 carro_out.left = True
                 carro_out.save()
                 return Response(status=status.HTTP_200_OK)
-            else:
-                return Response(carro_out.errors, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"message":"Pagamento deve ser realizado antes de sair"},status=status.HTTP_401_UNAUTHORIZED)
+
     @api_view(['PUT'])
     def carro_put_pagamento(request, pk):
         try:

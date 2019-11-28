@@ -18,13 +18,15 @@ from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
 from estacionamento.models import Carro
 from api.viewsets import CarroViewSet
+from estacionamento import views
 
-# router = routers.DefaultRouter()
-# router.register(r'api', CarroViewSet)
+router = routers.DefaultRouter()
+router.register(r'api', CarroViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include(router.urls)),
+    path('', include(router.urls)),
+    path('home/', views.index),
     path('parking/<int:pk>/out/', CarroViewSet.carro_put_saida),
     path('parking/<int:pk>/pay/', CarroViewSet.carro_put_pagamento),
     path('parking/<str:plate>/', CarroViewSet.historico),

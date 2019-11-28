@@ -1,0 +1,33 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+<title> Projeto Estacionamento </title>
+</head>
+<body>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Placa</th>
+      <th scope="col">Minutos</th>
+      <th scope="col">Pago</th>
+        <th scope="col">Saiu</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for consult in consulta %}
+    
+    
+    <tr>
+      <th scope="row">{{ consult.id }}</th>
+      <td>{{ consult.plate }}</td>
+      <td>{{ consult.time }}</td>
+      <td>{{ consult.paid }}</td>
+      <td>{{ consult.left }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+<body>
