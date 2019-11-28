@@ -43,15 +43,3 @@ class CarroViewSet(viewsets.ModelViewSet):
             carro_paid.paid = True
             carro_paid.save()
             return Response(status=status.HTTP_200_OK)
-
-    @action(detail=True, methods=['post'])
-    def pay(self, request, pk):
-        try:
-            carro = Carro.objects.get(pk=pk)
-        except Carro.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        if request.method == 'PUT':
-            carro_paid = Carro.objects.get(pk=pk)
-            carro_paid.paid = True
-            carro_paid.save()
-            return Response(status=status.HTTP_200_OK)
