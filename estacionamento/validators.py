@@ -18,3 +18,4 @@ def placa(value):
             raise ValidationError(('Os 3 primeiros digitos precisam ser Letras, EX:XXX-0000'))
         if len(numeros) != 4:
             raise ValidationError(('Os 4 ultimos digitos precisam ser números, EX:XXX-0000'))
+    
