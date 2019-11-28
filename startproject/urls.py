@@ -30,4 +30,3 @@ urlpatterns = [
     path('', include(router.urls)),
     path('home/', views.index),
 ]
-urlpatterns = router.urls

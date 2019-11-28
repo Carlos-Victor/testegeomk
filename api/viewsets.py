@@ -11,22 +11,13 @@ class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
     serializer_class = CarroSerializer
 
-    # def retrieve(self, request, pk=None, str):
-    #     queryset = Carro.objects.all().filter(plate=str)
-    #     carro = get_object_or_404(queryset, plate=str)
-    #     carro = CarroSerializer(carro, many=True)
-    #     return Response(carro.data)
-        #     def retrieve(self, request, pk=None):
-        # queryset = User.objects.all()
-        # user = get_object_or_404(queryset, pk=pk)
-        # serializer = UserSerializer(user)
-        # return Response(serializer.data)
-        # try:
-        #    carro = Carro.objects.all().filter(plate=plate)
-        #    serializer = CarroSerializer(carro, many=True)
-        # except Carro.DoesNotExist:
-        #     return Response(status=status.HTTP_404_NOT_FOUND)
-        # return Response(serializer.data)
+    def retrieve(self, request, pk):
+        queryset = Carro.objects.filter(plate=pk)
+        if not queryset:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            carro = CarroSerializer(queryset, many=True)
+            return Response(carro.data)
 
     @action(detail=True, methods=['put'])
     def out(self, request, pk):
@@ -39,9 +30,8 @@ class CarroViewSet(viewsets.ModelViewSet):
             if carro_out.paid == True:
                 carro_out.left = True
                 carro_out.save()
-                return Response(status=status.HTTP_200_OK)
         return Response({"message":"Pagamento deve ser realizado antes de sair"},status=status.HTTP_401_UNAUTHORIZED)
-
+    
     @action(detail=True, methods=['put'])
     def pay(self, request, pk):
         try:
