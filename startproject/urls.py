@@ -28,5 +28,4 @@ router.register(r'parking', CarroViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('home/', views.index),
 ]
