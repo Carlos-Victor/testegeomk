@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from datetime import datetime
 
 
 class CarroViewSet(viewsets.ModelViewSet):
@@ -15,9 +16,17 @@ class CarroViewSet(viewsets.ModelViewSet):
         queryset = Carro.objects.filter(plate=pk)
         if not queryset:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        else:
-            carro = CarroSerializer(queryset, many=True)
-            return Response(carro.data)
+        for consult in queryset:
+            if consult.left == False:
+                print("ESTOU AQUI",consult.criado)
+                atual = datetime.strptime(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"), '%Y-%m-%dT%H:%M:%S.%fZ')
+                criado = datetime.strptime(str(consult.criado).replace('+00:00', 'Z'), '%Y-%m-%d %H:%M:%S.%fZ')
+                minutos = atual - criado
+                minutos = minutos.seconds/60
+                consult.time = str(minutos)[0:7],'minutos'
+                consult.save()
+        carro = CarroSerializer(queryset, many=True)
+        return Response(carro.data)
 
     @action(detail=True, methods=['put'])
     def out(self, request, pk):
