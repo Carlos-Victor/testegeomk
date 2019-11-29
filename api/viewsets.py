@@ -35,8 +35,9 @@ class CarroViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'PUT':
             carro_out = Carro.objects.get(pk=pk)
-            if carro_out.paid == True:
+            if carro_out.paid == True and carro_out.left == False :
                 carro_out.left = True
+                carro_out.saida = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
                 carro_out.save()
         return Response({"message":"Pagamento deve ser realizado antes de sair"},status=status.HTTP_401_UNAUTHORIZED)
     
