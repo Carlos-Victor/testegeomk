@@ -18,12 +18,11 @@ class CarroViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         for consult in queryset:
             if consult.left == False:
-                print("ESTOU AQUI",consult.criado)
                 atual = datetime.strptime(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"), '%Y-%m-%dT%H:%M:%S.%fZ')
                 criado = datetime.strptime(str(consult.criado).replace('+00:00', 'Z'), '%Y-%m-%d %H:%M:%S.%fZ')
                 minutos = atual - criado
-                minutos = minutos.seconds/60
-                consult.time = str(minutos)[0:7],'minutos'
+                minutos = int(minutos.seconds/60)
+                consult.time = ("%d minutes" % minutos)
                 consult.save()
         carro = CarroSerializer(queryset, many=True)
         return Response(carro.data)
