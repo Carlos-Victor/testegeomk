@@ -19,8 +19,8 @@ def change_minutes(queryset):
             
 class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
-    serializer_class = CarroSerializer
     change_minutes(queryset)
+    serializer_class = CarroSerializer
 
     def retrieve(self, request, pk):
         queryset = Carro.objects.filter(plate=pk)
@@ -38,11 +38,16 @@ class CarroViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'PUT':
             carro_out = Carro.objects.get(pk=pk)
-            if carro_out.paid == True and carro_out.left == False :
+            if carro_out.paid == False:
+                return Response(status=status.HTTP_402_PAYMENT_REQUIRED)
+            elif carro_out.paid == True and carro_out.left == False :
                 carro_out.left = True
                 carro_out.saida = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
                 carro_out.save()
-        return Response({"message":"Pagamento deve ser realizado antes de sair"},status=status.HTTP_401_UNAUTHORIZED)
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_304_NOT_MODIFIED)
+                
     
     @action(detail=True, methods=['put'])
     def pay(self, request, pk):
@@ -52,6 +57,9 @@ class CarroViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'PUT':
             carro_paid = Carro.objects.get(pk=pk)
-            carro_paid.paid = True
-            carro_paid.save()
-            return Response(status=status.HTTP_200_OK)
+            if carro_paid.paid == False:
+                carro_paid.paid = True
+                carro_paid.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_304_NOT_MODIFIED)
