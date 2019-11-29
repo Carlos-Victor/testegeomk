@@ -7,23 +7,26 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 
-
+def change_minutes(queryset):
+    for consult in queryset:
+        if consult.left == False:
+            atual = datetime.strptime(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"), '%Y-%m-%dT%H:%M:%S.%fZ')
+            criado = datetime.strptime(str(consult.criado).replace('+00:00', 'Z'), '%Y-%m-%d %H:%M:%S.%fZ')
+            minutos = atual - criado
+            minutos = int(minutos.seconds/60)
+            consult.time = ("%d minutes" % minutos)
+            consult.save()
+            
 class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
     serializer_class = CarroSerializer
+    change_minutes(queryset)
 
     def retrieve(self, request, pk):
         queryset = Carro.objects.filter(plate=pk)
         if not queryset:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        for consult in queryset:
-            if consult.left == False:
-                atual = datetime.strptime(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"), '%Y-%m-%dT%H:%M:%S.%fZ')
-                criado = datetime.strptime(str(consult.criado).replace('+00:00', 'Z'), '%Y-%m-%d %H:%M:%S.%fZ')
-                minutos = atual - criado
-                minutos = int(minutos.seconds/60)
-                consult.time = ("%d minutes" % minutos)
-                consult.save()
+        change_minutes(queryset)
         carro = CarroSerializer(queryset, many=True)
         return Response(carro.data)
 
