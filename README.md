@@ -34,7 +34,7 @@ services:
 
 ### Comandos da aplicação
 ```
-python manage.py test nome_app.tests.arquivo_teste
+python manage.py runserver 0.0.0.0:8000
 ```  
 
 ### Desenvolvido com
