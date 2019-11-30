@@ -15,13 +15,18 @@ API para Estacionamento
 ```yaml
 version: '3'
 services:
-  aj100f:
-    image: registry.geomk.com.br/aj100f:v1.0.5
-    restart: unless-stopped
-    ports:
-    - '80:80'
-    environment:
-    - NGINX_PORT=80
+    api:
+      build:
+        context: .
+        dockerfile: ./dockers/Dockerfile
+      container_name: api_teste
+      command: python manage.py runserver 0.0.0.0:8080
+      env_file:
+        - ./env/api.env
+      volumes:
+        - ./source:source
+      ports:
+        - 8162:8080
 ```  
 ### Pré Requisitos
 + [Docker](https://docs.docker.com/) 17.09.1+

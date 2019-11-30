@@ -1,0 +1,14 @@
+version: '3'
+services:
+    api:
+      build:
+        context: .
+        dockerfile: ./dockers/Dockerfile
+      container_name: api_teste
+      command: python manage.py runserver 0.0.0.0:8080
+      env_file:
+        - ./env/api.env
+      volumes:
+        - ./source:source
+      ports:
+        - 8162:8080
