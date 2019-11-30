@@ -7,7 +7,7 @@ services:
       container_name: api_teste
       command: python manage.py runserver 0.0.0.0:8080
       env_file:
-        - ./env/api.env
+        - ./envs/api.env
       volumes:
         - ./source:source
       ports:
