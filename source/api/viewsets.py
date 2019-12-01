@@ -19,7 +19,6 @@ def change_minutes(queryset):
             
 class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
-    change_minutes(queryset)
     serializer_class = CarroSerializer
 
     def retrieve(self, request, pk):
