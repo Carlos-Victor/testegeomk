@@ -24,7 +24,7 @@ services:
       env_file:
         - ./env/api.env
       volumes:
-        - ./source:source
+        - ./source:/source
       ports:
         - 8162:8080
 ```  
