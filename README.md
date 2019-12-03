@@ -26,7 +26,7 @@ services:
       volumes:
         - ./source:/source
       ports:
-        - 8162:8080
+        - 8080:8080
 ```  
 ### Pré Requisitos
 + [Docker](https://docs.docker.com/) 17.09.1+
