@@ -11,4 +11,19 @@ services:
       volumes:
         - ./source:/source
       ports:
-        - 8162:8080
+        - 8160:8080
+      depends_on:
+        - postgres
+
+    postgres:
+      image: postgres:9.6
+      container_name: prd-db-postgres-9.6
+      restart: unless-stopped
+      volumes:
+        - ./postgres:/var/lib/postgresql/data
+        - ./envs:/docker-entrypoint-initdb.d
+      env_file:
+        - ./envs/postgres.env
+      ports:
+        - 4040:5432
+
