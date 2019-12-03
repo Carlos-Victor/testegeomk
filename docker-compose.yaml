@@ -24,6 +24,4 @@ services:
         - ./envs:/docker-entrypoint-initdb.d
       env_file:
         - ./envs/postgres.env
-      ports:
-        - 4040:5432
 
