@@ -1,0 +1,1 @@
+createdb -U postgres -O postgres api_rest

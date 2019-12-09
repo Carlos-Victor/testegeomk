@@ -26,19 +26,24 @@ services:
       volumes:
         - ./source:/source
       ports:
-        - 8162:8080
+        - 8080:8080
 ```  
 ### Pré Requisitos
 + [Docker](https://docs.docker.com/) 17.09.1+
 + [Docker Compose](https://docs.docker.com/compose/) 1.17.0+
 
 ### Comandos da aplicação
+- Primeiro comando:
 ```
-python manage.py runserver 0.0.0.0:8000
-```  
+docker-compose up -d
+``` 
+- Segundo comando:
+```
+docker-compose run --rm api python manage.py migrate
+```
 
 ### Desenvolvido com
-+ [Django](https://angular.io/docs) - Framework Django
-+ [Django Rest Framework](https://angular.io/docs) - Django Rest Framework
++ [Django](https://docs.djangoproject.com/en/3.0/) - Framework Django
++ [Django Rest Framework](https://www.django-rest-framework.org/) - Django Rest Framework
 ### Desenvolvido por
 + **Carlos Victor** 
