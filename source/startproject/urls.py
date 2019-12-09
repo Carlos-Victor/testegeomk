@@ -23,9 +23,9 @@ from estacionamento import views
 # router = routers.DefaultRouter()
 # router.register(r'parking', CarroViewSet)
 router = routers.DefaultRouter()
-router.register(r'parking', CarroViewSet)
+router.register(r'', CarroViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('parking', include(router.urls)),
 ]
