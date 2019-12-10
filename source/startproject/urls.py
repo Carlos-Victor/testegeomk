@@ -27,5 +27,5 @@ router.register(r'', CarroViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('parking', include(router.urls)),
+    path('parking/', include(router.urls)),
 ]

@@ -26,6 +26,11 @@ class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
     serializer_class = CarroSerializer
 
+    def destroy(self, request, pk=None):
+        snippet = Carro.objects.filter(plate=pk)
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def retrieve(self, request, pk):
         queryset = Carro.objects.filter(plate=pk)
         if not queryset:
